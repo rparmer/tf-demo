@@ -19,7 +19,7 @@ spec:
 apiVersion: infra.contrib.fluxcd.io/v1alpha1
 kind: Terraform
 metadata:
-  name: tf-one
+  name: tf-two
   namespace: flux-system
 spec:
   dependsOn:
@@ -34,7 +34,7 @@ spec:
   path: ./tf-two
   vars:
     - name: security_group_id
-      value: ${{ .tf_one_outputs.sg.id }}
+      value: ${{ .tf_one_outputs.sg_id }}
   sourceRef:
     kind: GitRepository
     name: tf-demo
