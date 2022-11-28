@@ -4,6 +4,10 @@ variable "boolean" {
   type = bool
 }
 
+variable "testing" {
+  type = list(string)
+}
+
 resource "null_resource" "echo" {
   triggers = {
     always = timestamp()

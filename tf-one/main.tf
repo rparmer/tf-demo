@@ -17,3 +17,7 @@ output "sg_id" {
 output "boolean" {
   value = true
 }
+
+output "testing" {
+  value = ["one", "two"]
+}
