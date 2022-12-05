@@ -1,0 +1,17 @@
+apiVersion: infra.contrib.fluxcd.io/v1alpha1
+kind: Terraform
+metadata:
+  name: echo-tf
+  namespace: flux-system
+spec:
+  approvePlan: auto
+  destroyResourcesOnDeletion: true
+  writeOutputsToSecret:
+    name: echo-tf-outputs
+  interval: 1h
+  retryInterval: 20s
+  path: ./echo-tf
+  sourceRef:
+    kind: GitRepository
+    name: tf-demo
+    namespace: flux-system

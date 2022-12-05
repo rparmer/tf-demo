@@ -8,6 +8,11 @@ spec:
   destroyResourcesOnDeletion: true
   writeOutputsToSecret:
     name: tf-one-outputs
+    outputs:
+      - sg
+      - sg_id:security_group_id
+      - boolean
+      - testing
   interval: 1h
   retryInterval: 20s
   path: ./tf-one
@@ -24,17 +29,24 @@ metadata:
 spec:
   dependsOn:
     - name: tf-one
-  readInputsFromSecrets:
-    - name: tf-one-outputs
-      as: tf_one_outputs
+  # readInputsFromSecrets:
+  #   - name: tf-one-outputs
+  #     as: tf_one_outputs
   approvePlan: auto
   destroyResourcesOnDeletion: true
   interval: 1h
   retryInterval: 20s
   path: ./tf-two
-  vars:
-    - name: security_group_id
-      value: ${{ .tf_one_outputs.sg_id }}
+  # vars:
+  #   # Does not work
+  #   - name: security_group_id
+  #     value: ${{ .tf_one_outputs.sg.id }}
+  #   # Works
+  #   - name: security_group_id
+  #     value: ${{ .tf_one_outputs.sg_id }}
+  varsFrom:
+    - kind: Secret
+      name: tf-one-outputs
   sourceRef:
     kind: GitRepository
     name: tf-demo

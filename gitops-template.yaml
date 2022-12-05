@@ -1,0 +1,58 @@
+apiVersion: templates.weave.works/v1alpha1
+kind: GitOpsTemplate
+metadata:
+  name: template-demo
+  namespace: default
+  labels:
+    weave.works/template-type: terraform
+  annotations:
+    templates.weave.works/profiles-enabled: "false"
+    templates.weave.works/kustomizations-enabled: "false"
+    templates.weave.works/credentials-enabled: "false"
+spec:
+  description: Template demo.
+  renderType: templating
+  params:
+    - name: RESOURCE_NAME
+      description: Name of the template resource.
+  resourcetemplates:
+    - apiVersion: infra.contrib.fluxcd.io/v1alpha1
+      kind: Terraform
+      metadata:
+        name: tf-one
+        namespace: flux-system
+      spec:
+        approvePlan: auto
+        destroyResourcesOnDeletion: true
+        writeOutputsToSecret:
+          name: tf-one-outputs
+        interval: 1h
+        retryInterval: 20s
+        path: ./tf-one
+        sourceRef:
+          kind: GitRepository
+          name: tf-demo
+          namespace: flux-system
+    - apiVersion: infra.contrib.fluxcd.io/v1alpha1
+      kind: Terraform
+      metadata:
+        name: tf-two
+        namespace: flux-system
+      spec:
+        dependsOn:
+          - name: tf-one
+        readInputsFromSecrets:
+          - name: tf-one-outputs
+            as: tf_one_outputs
+        approvePlan: auto
+        destroyResourcesOnDeletion: true
+        interval: 1h
+        retryInterval: 20s
+        path: ./tf-two
+        vars:
+          - name: security_group_id
+            value: ${{ .tf_one_outputs.sg_id }}
+        sourceRef:
+          kind: GitRepository
+          name: tf-demo
+          namespace: flux-system

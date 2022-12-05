@@ -1,0 +1,16 @@
+apiVersion: infra.contrib.fluxcd.io/v1alpha1
+kind: Terraform
+metadata:
+  name: tf-demo
+  namespace: flux-system
+spec:
+  path: aws_s3_bucket
+  values:
+    bucket: russ-tf-demo
+    force_destroy: true
+  sourceRef:
+    kind: OCIRepository
+    name: aws-package
+  interval: 1h0m
+  approvePlan: auto
+  destroyResourcesOnDeletion: true
