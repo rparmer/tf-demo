@@ -1,4 +1,4 @@
-variable "security_group_id" {}
+variable "sg_id" {}
 
 variable "boolean" {
   type = bool
@@ -8,12 +8,14 @@ variable "boolean" {
 #   type = list(string)
 # }
 
+variable "sg" {}
+
 resource "null_resource" "echo" {
   triggers = {
     always = timestamp()
   }
   
   provisioner "local-exec" {
-    command = "echo ${var.security_group_id} ${var.boolean}"
+    command = "echo ${var.sg_id} ${var.boolean}"
   }
 }
