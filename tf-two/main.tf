@@ -16,6 +16,6 @@ resource "null_resource" "echo" {
   }
   
   provisioner "local-exec" {
-    command = "echo ${var.sg_id} ${var.boolean}"
+    command = "echo ${var.sg.id} ${var.boolean}"
   }
 }
