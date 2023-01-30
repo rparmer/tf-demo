@@ -1,4 +1,4 @@
-variable "security_group_id" {}
+variable "sg_id" {}
 
 variable "boolean" {
   type = bool
@@ -14,6 +14,6 @@ resource "null_resource" "echo" {
   }
   
   provisioner "local-exec" {
-    command = "echo ${var.security_group_id} ${var.boolean}"
+    command = "echo ${var.sg_id} ${var.boolean}"
   }
 }
