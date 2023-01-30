@@ -4,9 +4,9 @@ variable "boolean" {
   type = bool
 }
 
-variable "testing" {
-  type = list(string)
-}
+# variable "testing" {
+#   type = list(string)
+# }
 
 resource "null_resource" "echo" {
   triggers = {
