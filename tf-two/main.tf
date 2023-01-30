@@ -4,11 +4,11 @@ variable "boolean" {
   type = bool
 }
 
-# variable "testing" {
-#   type = list(string)
-# }
+variable "testing" {
+  type = list(string)
+}
 
-variable "sg" {}
+# variable "sg" {}
 
 resource "null_resource" "echo" {
   triggers = {
@@ -16,6 +16,6 @@ resource "null_resource" "echo" {
   }
   
   provisioner "local-exec" {
-    command = "echo ${var.sg.id} ${var.boolean}"
+    command = "echo ${var.sg_id} ${var.boolean}"
   }
 }
